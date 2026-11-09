@@ -26,6 +26,10 @@
         transition: background-color .2s;
         cursor: pointer;
       }
+      /* Språkväljaren står till vänster om Hem och om mobilknappen Meny */
+      .nav-right {
+        gap: 16px;
+      }
       /* Knappen ”Meny” — tona bara bakgrunden, behåll vit text utan understreck */
       .menu-toggle:hover,
       .menu-toggle:focus-visible {
@@ -137,10 +141,22 @@
       /* Mobil — menyradens lägre höjd */
       .nav {
         height: 68px;
+        gap: 10px;
+      }
+      /* Mobil — SV/EN till vänster om knappen Meny */
+      .nav-right {
+        gap: 12px;
+      }
+      .language-switch {
+        gap: 5px;
+        font-size: 12px;
+      }
+      .language-switch button {
+        padding: 8px 2px;
       }
       /* Mobil — logotypens mindre bredd */
       .brand img {
-        width: 150px;
+        width: clamp(112px,38vw,150px);
         margin-left: -10px;
         transform: translateY(-4px);
       }
