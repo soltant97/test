@@ -1,0 +1,35 @@
+<!-------------------------------- Contact: introduction and email link -------------------------------->
+<section class="contact" id="contact" aria-labelledby="contact-title">
+  <div class="contact-inner wrap">
+    <div class="contact-intro-copy">
+      <h1 id="contact-title">Contact us</h1>
+      <p>Need help with bookkeeping, year-end closing, payroll or tax returns? Get in touch and tell us what your business needs.</p>
+    </div>
+    <a class="button contact-email-button" href="mailto:ekonomikakontakt@gmail.com?subject=Contact%20Ekonomika">Email us<span class="contact-email-arrow" aria-hidden="true">↗</span></a>
+  </div>
+</section>
+
+<!-------------------------------- Contact: details and message form -------------------------------->
+<section class="contact-form-section" aria-label="Contact details and contact form">
+  <div class="contact-form-inner wrap">
+    <div class="contact-details">
+      <h2>Our Details</h2>
+      <div class="contact-detail-group"><h3>Address</h3><p>Stockholm</p></div>
+      <div class="contact-detail-group"><h3>Email</h3><p><a href="mailto:ekonomikakontakt@gmail.com">ekonomikakontakt@gmail.com</a></p></div>
+      <div class="contact-detail-group"><h3>Phone</h3><p><a href="tel:+4699999">+4699999</a></p></div>
+    </div>
+    <form class="contact-form" id="contact-form" action="https://formsubmit.co/ekonomikakontakt@gmail.com" method="POST">
+      <input type="hidden" name="_subject" value="New contact message from the Ekonomika website">
+      <div class="contact-form-field">
+        <label for="contact-email">Your email address:</label>
+        <input id="contact-email" name="email" type="email" placeholder="name@example.com" autocomplete="email" required>
+      </div>
+      <div class="contact-form-field">
+        <label for="contact-message">Message</label>
+        <textarea id="contact-message" name="message" placeholder="How can we help you?" required></textarea>
+      </div>
+      <button class="contact-submit-button" type="submit">Send</button>
+      <p class="contact-form-note" id="contact-form-note" aria-live="polite">Your message will be sent to Ekonomika. We read and reply to every message personally.</p>
+    </form>
+  </div>
+</section>

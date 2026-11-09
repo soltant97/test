@@ -111,6 +111,39 @@
       filter: brightness(0) invert(1);
 
     }
+    /* Språkväljaren ”SV | EN” — placeras före Hem på desktop */
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      margin-left: auto;
+    }
+    .language-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      flex: 0 0 auto;
+      color: rgba(255,255,255,.62);
+      font-size: 13px;
+    }
+    .language-switch button {
+      padding: 5px 2px;
+      border: 0;
+      color: rgba(255,255,255,.76);
+      background: transparent;
+      font: inherit;
+      cursor: pointer;
+    }
+    .language-switch button[aria-pressed="true"] {
+      color: #fff;
+      font-weight: 700;
+    }
+    .language-switch button:hover,
+    .language-switch button:focus-visible {
+      color: #fff;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
     /* Menytexterna — mellanrum, vit färg och textstorlek */
     .nav-links {
       display: flex;

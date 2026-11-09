@@ -16,6 +16,35 @@ function activateNavigation() {
   const menuButton = document.querySelector('.menu-toggle');
   const menu = document.querySelector('#nav-links');
 
+  document.querySelectorAll('[data-language]').forEach((button) => {
+    const activeLanguage = document.documentElement.lang === 'en' ? 'en' : 'sv';
+    button.setAttribute('aria-pressed', String(button.dataset.language === activeLanguage));
+    button.addEventListener('click', () => {
+      if (button.dataset.language === activeLanguage) return;
+
+      const routeNames = {
+        sv: { Hem: 'Hem', Tjanster: 'Tjanster', Om: 'Om', Kontakt: 'Kontakt' },
+        en: { Hem: 'Home', Tjanster: 'Services', Om: 'About', Kontakt: 'Contact' },
+      };
+      const segments = window.location.pathname.split('/').filter(Boolean)
+        .filter((segment) => segment !== 'index.html');
+      const englishIndex = segments.indexOf('English');
+      const currentPage = englishIndex >= 0 ? segments[englishIndex + 1] : segments.find((segment) => routeNames.sv[segment]);
+      const pageKeys = { Home: 'Hem', Services: 'Tjanster', About: 'Om', Contact: 'Kontakt' };
+      const pageKey = pageKeys[currentPage] || currentPage;
+      if (!pageKey || !routeNames.sv[pageKey]) return;
+
+      if (button.dataset.language === 'en') {
+        const pageIndex = englishIndex >= 0 ? englishIndex : segments.indexOf(pageKey);
+        segments.splice(pageIndex, englishIndex >= 0 ? 2 : 1, 'English', routeNames.en[pageKey]);
+      } else {
+        segments.splice(englishIndex, 2, routeNames.sv[pageKey]);
+      }
+
+      window.location.href = `/${segments.join('/')}/`;
+    });
+  });
+
   menuButton.addEventListener('click', () => {
     const isOpen = menu.classList.toggle('open');
     menuButton.setAttribute('aria-expanded', String(isOpen));
@@ -112,17 +141,21 @@ function activateContactForm() {
 
   const submitButton = form.querySelector('button[type="submit"]');
   const status = document.querySelector('#contact-form-note');
-  if (new URLSearchParams(window.location.search).has('skickat')) {
-    status.textContent = 'Tack! Ditt meddelande är skickat. Vi återkommer så snart vi kan.';
+  const isEnglish = document.documentElement.lang === 'en';
+  const sentParameter = isEnglish ? 'sent' : 'skickat';
+  if (new URLSearchParams(window.location.search).has(sentParameter)) {
+    status.textContent = isEnglish
+      ? 'Thank you! Your message has been sent. We will get back to you as soon as we can.'
+      : 'Tack! Ditt meddelande är skickat. Vi återkommer så snart vi kan.';
     const cleanUrl = new URL(window.location.href);
-    cleanUrl.searchParams.delete('skickat');
+    cleanUrl.searchParams.delete(sentParameter);
     window.history.replaceState({}, '', cleanUrl);
   }
 
   form.addEventListener('submit', () => {
     /* FormSubmit kräver en fullständig URL för _next; skapa fältet först när vi har en giltig adress. */
     const redirectUrl = new URL(window.location.href);
-    redirectUrl.searchParams.set('skickat', '1');
+    redirectUrl.searchParams.set(isEnglish ? 'sent' : 'skickat', '1');
     redirectUrl.hash = 'contact-form';
     let nextUrl = form.querySelector('input[name="_next"]');
     if (!nextUrl) {
@@ -133,7 +166,7 @@ function activateContactForm() {
     }
     nextUrl.value = redirectUrl.toString();
     submitButton.disabled = true;
-    status.textContent = 'Skickar ditt meddelande…';
+    status.textContent = isEnglish ? 'Sending your message…' : 'Skickar ditt meddelande…';
   });
 }
 

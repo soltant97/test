@@ -4,10 +4,16 @@
     <a class="brand" href="../Hem/index.html" aria-label="Ekonomika, till startsidan">
       <img src="../General/assets/ekonomika-logo.png" alt="Ekonomika">
     </a>
-    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-links">
-      Meny <span aria-hidden="true">☰</span>
-    </button>
-    <ul class="nav-links" id="nav-links">
+    <div class="nav-right">
+      <div class="language-switch" role="group" aria-label="Välj språk">
+        <button type="button" data-language="sv" aria-label="Visa webbplatsen på svenska">SV</button>
+        <span aria-hidden="true">|</span>
+        <button type="button" data-language="en" aria-label="Visa webbplatsen på engelska">EN</button>
+      </div>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-links">
+        Meny <span aria-hidden="true">☰</span>
+      </button>
+      <ul class="nav-links" id="nav-links">
       <li>
         <a href="../Hem/index.html">Hem</a>
       </li>
@@ -26,6 +32,7 @@
           Kontakt <span class="nav-cta-arrow" aria-hidden="true">↗︎</span>
         </a>
       </li>
-    </ul>
+      </ul>
+    </div>
   </nav>
 </header>
