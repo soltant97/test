@@ -112,8 +112,6 @@ function activateContactForm() {
 
   const submitButton = form.querySelector('button[type="submit"]');
   const status = document.querySelector('#contact-form-note');
-  const nextUrl = form.querySelector('input[name="_next"]');
-
   if (new URLSearchParams(window.location.search).has('skickat')) {
     status.textContent = 'Tack! Ditt meddelande är skickat. Vi återkommer så snart vi kan.';
     const cleanUrl = new URL(window.location.href);
@@ -122,9 +120,17 @@ function activateContactForm() {
   }
 
   form.addEventListener('submit', () => {
+    /* FormSubmit kräver en fullständig URL för _next; skapa fältet först när vi har en giltig adress. */
     const redirectUrl = new URL(window.location.href);
     redirectUrl.searchParams.set('skickat', '1');
     redirectUrl.hash = 'contact-form';
+    let nextUrl = form.querySelector('input[name="_next"]');
+    if (!nextUrl) {
+      nextUrl = document.createElement('input');
+      nextUrl.type = 'hidden';
+      nextUrl.name = '_next';
+      form.append(nextUrl);
+    }
     nextUrl.value = redirectUrl.toString();
     submitButton.disabled = true;
     status.textContent = 'Skickar ditt meddelande…';
