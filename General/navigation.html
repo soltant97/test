@@ -1,8 +1,8 @@
 <!------------------------------------ Navigering -------------------------------------->
 <header>
   <nav class="nav wrap" aria-label="Huvudmeny">
-    <a class="brand" href="../Hem/index.html" aria-label="Ekonomika, till startsidan">
-      <img src="../General/assets/ekonomika-logo.png" alt="Ekonomika">
+    <a class="brand" href="../Hem/index.html" data-route="home-root" aria-label="Ekonomika, till startsidan">
+      <img src="../General/assets/ekonomika-logo.png" data-asset="ekonomika-logo.png" alt="Ekonomika">
     </a>
     <div class="nav-right">
       <div class="language-switch" role="group" aria-label="Välj språk">
@@ -15,20 +15,20 @@
       </button>
       <ul class="nav-links" id="nav-links">
       <li>
-        <a href="../Hem/index.html">Hem</a>
+        <a href="../Hem/index.html" data-route="home">Hem</a>
       </li>
       <li>
-        <a href="../Tjanster/">
+        <a href="../Tjanster/" data-route="services">
           Våra Tjänster
         </a>
       </li>
       <li>
-        <a href="../Om/">
+        <a href="../Om/" data-route="about">
           Om Oss
         </a>
       </li>
       <li>
-        <a class="nav-cta" href="../Kontakt/">
+        <a class="nav-cta" href="../Kontakt/" data-route="contact">
           Kontakt <span class="nav-cta-arrow" aria-hidden="true">↗︎</span>
         </a>
       </li>

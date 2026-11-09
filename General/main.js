@@ -15,33 +15,53 @@ async function loadPageSections() {
 function activateNavigation() {
   const menuButton = document.querySelector('.menu-toggle');
   const menu = document.querySelector('#nav-links');
+  const routeConfig = {
+    sv: { home: 'hem', services: 'tjanster', about: 'om-oss', contact: 'kontakt' },
+    en: { home: 'home', services: 'services', about: 'about', contact: 'contact' },
+  };
+  const currentRoute = () => {
+    const segments = window.location.pathname.split('/').filter(Boolean)
+      .filter((segment) => segment !== 'index.html');
+    const localeIndex = segments.findIndex((segment) => segment === 'sv' || segment === 'en');
+    if (localeIndex >= 0) {
+      const locale = segments[localeIndex];
+      const pages = Object.keys(routeConfig[locale]);
+      const currentPage = pages.find((page) => routeConfig[locale][page] === segments[localeIndex + 1]) || 'home';
+      return { locale, page: currentPage, base: segments.slice(0, localeIndex), isLocaleRoot: localeIndex === segments.length - 1 };
+    }
+
+    const legacyRoutes = { Hem: 'home', Tjanster: 'services', Om: 'about', Kontakt: 'contact' };
+    const legacyIndex = segments.findIndex((segment) => legacyRoutes[segment]);
+    return {
+      locale: 'sv',
+      page: legacyIndex >= 0 ? legacyRoutes[segments[legacyIndex]] : 'home',
+      base: legacyIndex >= 0 ? segments.slice(0, legacyIndex) : segments,
+      isLocaleRoot: legacyIndex < 0,
+    };
+  };
+  const routeUrl = (locale, page, base, localeRoot = false) => {
+    const path = [...base, locale, ...(localeRoot ? [] : [routeConfig[locale][page]])];
+    return `/${path.join('/')}/`;
+  };
+
+  const current = currentRoute();
+  document.querySelectorAll('[data-asset]').forEach((asset) => {
+    const assetRoot = `/${[...current.base, 'General', 'assets'].join('/')}/`;
+    asset.src = `${assetRoot}${asset.dataset.asset}`;
+  });
+
+  document.querySelectorAll('[data-route]').forEach((link) => {
+    const route = link.dataset.route;
+    link.href = routeUrl(current.locale, route === 'home-root' ? 'home' : route, current.base, route === 'home-root');
+  });
 
   document.querySelectorAll('[data-language]').forEach((button) => {
-    const activeLanguage = document.documentElement.lang === 'en' ? 'en' : 'sv';
+    const activeLanguage = current.locale;
     button.setAttribute('aria-pressed', String(button.dataset.language === activeLanguage));
     button.addEventListener('click', () => {
       if (button.dataset.language === activeLanguage) return;
-
-      const routeNames = {
-        sv: { Hem: 'Hem', Tjanster: 'Tjanster', Om: 'Om', Kontakt: 'Kontakt' },
-        en: { Hem: 'Home', Tjanster: 'Services', Om: 'About', Kontakt: 'Contact' },
-      };
-      const segments = window.location.pathname.split('/').filter(Boolean)
-        .filter((segment) => segment !== 'index.html');
-      const englishIndex = segments.indexOf('English');
-      const currentPage = englishIndex >= 0 ? segments[englishIndex + 1] : segments.find((segment) => routeNames.sv[segment]);
-      const pageKeys = { Home: 'Hem', Services: 'Tjanster', About: 'Om', Contact: 'Kontakt' };
-      const pageKey = pageKeys[currentPage] || currentPage;
-      if (!pageKey || !routeNames.sv[pageKey]) return;
-
-      if (button.dataset.language === 'en') {
-        const pageIndex = englishIndex >= 0 ? englishIndex : segments.indexOf(pageKey);
-        segments.splice(pageIndex, englishIndex >= 0 ? 2 : 1, 'English', routeNames.en[pageKey]);
-      } else {
-        segments.splice(englishIndex, 2, routeNames.sv[pageKey]);
-      }
-
-      window.location.href = `/${segments.join('/')}/`;
+      const nextLocale = button.dataset.language;
+      window.location.href = routeUrl(nextLocale, current.page, current.base, current.isLocaleRoot);
     });
   });
 
