@@ -71,6 +71,7 @@ function activateNavigation() {
 
   const current = currentRoute();
   document.querySelectorAll('[data-asset]').forEach((asset) => {
+    /* Inuti GitHub Pages behåll repots sökväg; språkmapparna är lowercase. */
     const assetRoot = `/${[...current.base, 'General', 'assets'].join('/')}/`;
     asset.src = `${assetRoot}${asset.dataset.asset}`;
   });
