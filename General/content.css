@@ -27,19 +27,19 @@ section.content {
   line-height: 1.75;
 }
 /* Sidinnehåll på Tjänster, Om oss och Kontakt — tona in sektionen vid scroll */
-main section {
+main section:not(.hero-banner) {
   opacity: 0;
   transform: translateY(18px);
   transition: opacity 850ms ease, transform 850ms ease;
 }
 
-main section.is-visible {
+main section:not(.hero-banner).is-visible {
   opacity: 1;
   transform: translateY(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  main section {
+  main section:not(.hero-banner) {
     opacity: 1;
     transform: none;
     transition: none;
