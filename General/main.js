@@ -17,7 +17,7 @@ function activateHomeScrollFade() {
   const isHome = document.querySelector('.hero-banner') && document.querySelector('.home-intro');
   const sections = isHome
     ? [document.querySelector('.home-intro'), document.querySelector('.home-services')]
-    : Array.from(document.querySelectorAll('main > section, main > div > section'));
+    : Array.from(document.querySelectorAll('main section'));
   const visibleSections = sections.filter(Boolean);
   if (!visibleSections.length) return;
 
