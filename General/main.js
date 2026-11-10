@@ -15,15 +15,14 @@ async function loadPageSections() {
 /* Tona in startsidans avsnitt när de rullar in i synfältet. */
 function activateHomeScrollFade() {
   const isHome = document.querySelector('.hero-banner') && document.querySelector('.home-intro');
-  if (!isHome) return;
-
-  const sections = [
-    document.querySelector('.home-intro'),
-    document.querySelector('.home-services'),
-  ].filter(Boolean);
+  const sections = isHome
+    ? [document.querySelector('.home-intro'), document.querySelector('.home-services')]
+    : Array.from(document.querySelectorAll('main > section, main > div > section'));
+  const visibleSections = sections.filter(Boolean);
+  if (!visibleSections.length) return;
 
   if (!('IntersectionObserver' in window)) {
-    sections.forEach((section) => section.classList.add('is-visible'));
+    visibleSections.forEach((section) => section.classList.add('is-visible'));
     return;
   }
 
@@ -35,7 +34,7 @@ function activateHomeScrollFade() {
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
 
-  sections.forEach((section) => observer.observe(section));
+  visibleSections.forEach((section) => observer.observe(section));
 }
 
 function activateNavigation() {
