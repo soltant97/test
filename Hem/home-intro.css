@@ -12,7 +12,23 @@
   padding: clamp(120px, 20vw, 160px) 0 clamp(190px, 22vw, 280px);
   background: var(--paper);
    text-align: center;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 850ms ease, transform 850ms ease;
  
+}
+
+.home-intro.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-intro {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 /* Grön vågformad bakgrund bakom introtexten */

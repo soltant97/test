@@ -12,6 +12,32 @@ async function loadPageSections() {
   }));
 }
 
+/* Tona in startsidans avsnitt när de rullar in i synfältet. */
+function activateHomeScrollFade() {
+  const isHome = document.querySelector('.hero-banner') && document.querySelector('.home-intro');
+  if (!isHome) return;
+
+  const sections = [
+    document.querySelector('.home-intro'),
+    document.querySelector('.home-services'),
+  ].filter(Boolean);
+
+  if (!('IntersectionObserver' in window)) {
+    sections.forEach((section) => section.classList.add('is-visible'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries, activeObserver) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      activeObserver.unobserve(entry.target);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+
+  sections.forEach((section) => observer.observe(section));
+}
+
 function activateNavigation() {
   const menuButton = document.querySelector('.menu-toggle');
   const menu = document.querySelector('#nav-links');
@@ -194,6 +220,7 @@ loadPageSections()
   .then(() => {
     activateNavigation();
     alignHomeWaveWithFirstCircle();
+    activateHomeScrollFade();
     activateContactForm();
   })
   .catch((error) => console.error('Webbplatsens HTML-delar kunde inte läsas in.', error));

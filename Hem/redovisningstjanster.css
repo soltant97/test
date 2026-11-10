@@ -21,7 +21,23 @@
   padding: 28px 0 72px;
   overflow: hidden;
   background: transparent;
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 900ms ease, transform 900ms ease;
   
+}
+
+.home-services.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-services {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 /* Varje tjänst får en egen hög rad med plats för en stor cirkelbild */
